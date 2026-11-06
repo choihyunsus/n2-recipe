@@ -1,0 +1,16 @@
+# The host supplies the actual preparation check.
+@meta { name: "work_start" version: "1.0.0" phase: "work_start" }
+@recipe WorkStart {
+  enforce: strict
+  step prepare {
+    tool: "prepare"
+    args_json: "{\"task\":\"${prompt}\"}"
+    required: true
+  }
+  step expertise {
+    tool: "n2r_expertise"
+    args_json: "{\"task\":\"${prompt}\"}"
+    required: true
+    inject: "system_prompt"
+  }
+}

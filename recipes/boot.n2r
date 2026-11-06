@@ -1,0 +1,10 @@
+# Restore bounded references for the configured project and agent.
+@meta { name: "boot" version: "1.0.0" phase: "boot" }
+@recipe Boot {
+  enforce: strict
+  step recall {
+    tool: "n2r_recall"
+    required: true
+    inject: "system_prompt"
+  }
+}

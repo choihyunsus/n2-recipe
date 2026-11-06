@@ -1,0 +1,19 @@
+N2R contains lifecycle and generic expertise logic adapted from N2 Daebung.
+The MIT notice for that code is retained in LICENSE.
+
+n2-clotho provides the .n2 parser and bundled WASM compiler.
+Its distribution terms are retained in LICENSE-CLOTHO and LICENSE-APACHE.
+Its own package also carries the MIT notice for adapted Daebung code.
+Source https://github.com/choihyunsus/n2-clotho
+
+n2-mimir provides the common Soul SQLite schema and storage connection.
+Its distribution terms are retained in LICENSE-MIMIR and LICENSE-MIMIR-APACHE.
+Its own package includes additional upstream notices.
+Source https://github.com/choihyunsus/n2-mimir
+
+n2-personas provides the 72 generic role prompts and catalog.
+Its MIT license is retained in LICENSE-PERSONAS.
+Source https://github.com/choihyunsus/n2-personas
+
+Additional runtime dependencies retain the license files distributed in their
+installed packages. Review each dependency's terms for your intended use.

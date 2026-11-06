@@ -1,0 +1,10 @@
+# The host verifies the observed work before completion can be recorded.
+@meta { name: "work_end" version: "1.0.0" phase: "work_end" }
+@recipe WorkEnd {
+  enforce: strict
+  step verify {
+    tool: "verify"
+    args_json: "{\"task\":\"${prompt}\",\"files\":\"${modified_files_array}\"}"
+    required: true
+  }
+}

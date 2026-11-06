@@ -1,0 +1,9 @@
+# Persist the scoped run context and its actual outcome.
+@meta { name: "end" version: "1.0.0" phase: "end" }
+@recipe End {
+  enforce: strict
+  step checkpoint {
+    tool: "n2r_checkpoint"
+    required: true
+  }
+}

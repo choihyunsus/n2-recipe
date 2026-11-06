@@ -1,0 +1,25 @@
+{
+  "name": "n2-recipe",
+  "version": "1.0.0",
+  "description": "N2R lifecycle recipes with mandatory pre/post checks and durable scoped execution over the common Soul database.",
+  "main": "dist/library.js",
+  "types": "dist/library.d.ts",
+  "bin": { "n2-recipe": "dist/index.js" },
+  "files": ["dist/", "recipes/", "examples/", "LICENSE", "LICENSE-*", "THIRD-PARTY-NOTICES", "README.md", "README.ko.md"],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test --test-timeout=30000 tests/*.test.cjs",
+    "prepack": "npm test"
+  },
+  "engines": { "node": ">=22.0.0" },
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/choihyunsus/n2-recipe" },
+  "dependencies": {
+    "n2-clotho": "https://github.com/choihyunsus/n2-clotho/releases/download/v4.0.1/n2-clotho-4.0.1.tgz",
+    "n2-mimir": "https://github.com/choihyunsus/n2-mimir/releases/download/v3.0.3/n2-mimir-3.0.3.tgz",
+    "n2-personas": "https://github.com/choihyunsus/n2-personas/archive/refs/tags/v1.0.0.tar.gz",
+    "better-sqlite3": "^12.11.1"
+  },
+  "devDependencies": { "@types/node": "^22.19.15", "typescript": "^5.9.3" }
+}
