@@ -13,7 +13,7 @@ An agent coordinator such as Gumiho can use one N2R run for a logical task conta
 Requires Node.js 22 or later. SQLite uses `better-sqlite3`, with optional compatible Mimir Rust bindings. Installation may require a native build toolchain when a prebuilt SQLite binding is unavailable.
 
 ```sh
-npm install https://github.com/choihyunsus/n2-recipe/releases/download/v1.0.0/n2-recipe-1.0.0.tgz
+npm install https://github.com/choihyunsus/n2-recipe/releases/download/v1.0.1/n2-recipe-1.0.1.tgz
 ```
 
 This version is distributed through GitHub Releases. Clotho, Mimir and Personas are pinned to published GitHub artifacts in the dependency manifest.
@@ -153,6 +153,8 @@ Point the runner at the same local SQLite file used by the distribution Soul/Mim
 N2R adds `n2r_configuration`, `n2r_runs`, `n2r_calls`, `n2r_leases` and `n2r_checkpoints`, tracked by `meta.n2r_schema_version = 1`. Existing unversioned N2R tables require an explicit migration. Scoped execution records retain recipe hashes, arguments, results and reconciliation notes. Keep credentials in adapter closures and environment variables. Store task data in invocation arguments and outputs.
 
 ## Bounds
+
+Text boundaries validate well-formed UTF-8 before callbacks or persisted receipts. Tool metadata is captured at registration. Stateful tools, work handlers and expertise selectors retain their owning instance when their methods run.
 
 | Resource | Limit/default |
 | --- | --- |

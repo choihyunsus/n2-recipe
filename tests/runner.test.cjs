@@ -40,6 +40,82 @@ function fixture(t, overrides = {}) {
   return { root, options, open };
 }
 
+test('normal entry rejects malformed text before callbacks or durable run creation', async (t) => {
+  const f = fixture(t),
+    runner = f.open();
+  let callbacks = 0;
+  const handler = work(() => {
+    callbacks++;
+    return ok('done');
+  });
+  for (const invalid of ['\ud800', '\udfff', 'prefix\ud800suffix']) {
+    for (const request of [
+      { runId: 'invalid', task: invalid },
+      { runId: invalid, task: 'valid' },
+      { runId: 'invalid', sessionId: invalid, task: 'valid' },
+      { runId: 'invalid', task: 'valid', modifiedFiles: [invalid] },
+    ])
+      await assert.rejects(runner.run(request, handler), /Invalid/);
+  }
+  assert.equal(callbacks, 0);
+  assert.equal(runner.status('invalid'), undefined);
+  assert.throws(() => f.open({ dbPath: path.join(f.root, 'bad\ud800.db') }), /Invalid/);
+  assert.equal(fs.existsSync(path.join(f.root, 'bad\ufffd.db')), false);
+});
+
+test('class tools, work handlers and expertise selectors retain prototype methods and private state', async (t) => {
+  const calls = [];
+  class Gate {
+    #name;
+    constructor(name) {
+      this.#name = name;
+    }
+    get name() {
+      return this.#name;
+    }
+    get version() {
+      return 'class-v1';
+    }
+    get readOnly() {
+      return true;
+    }
+    execute() {
+      calls.push(this.#name);
+      return ok(this.#name);
+    }
+  }
+  class Selector {
+    #id = 'dev/web-frontend';
+    get version() {
+      return 'selector-v1';
+    }
+    select() {
+      return this.#id;
+    }
+  }
+  class Work {
+    #message = '한글 😀';
+    get version() {
+      return 'work-v1';
+    }
+    execute(context) {
+      calls.push('work');
+      assert.ok(
+        context.context.systemAdditions.some((text) => text.includes('Web Frontend Expert')),
+      );
+      return ok(this.#message);
+    }
+  }
+  const f = fixture(t, {
+    tools: [new Gate('prepare'), new Gate('verify')],
+    expertise: new Selector(),
+  });
+  const result = await f.open().run({ runId: 'class-run', task: '한글 😀 frontend' }, new Work());
+  assert.equal(result.success, true);
+  assert.equal(result.work.output, '한글 😀');
+  assert.deepEqual(calls, ['prepare', 'work', 'verify']);
+});
+
 test('normal entry performs all phases, free work calls, post verification and exactly one scoped experience across restart', async (t) => {
   const order = [],
     f = fixture(t);

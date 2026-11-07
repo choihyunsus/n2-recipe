@@ -3,6 +3,31 @@ const assert = require('node:assert/strict');
 const { ToolRegistry, checkedToolResult } = require('../dist/tool-registry');
 const { withDeadline, InterruptedExecution } = require('../dist/deadline');
 
+test('tool arguments and results reject lone surrogates before accepting altered UTF-8 text', async () => {
+  let calls = 0;
+  const registry = new ToolRegistry([
+    {
+      name: 'echo',
+      version: '1',
+      execute: (args) => {
+        calls++;
+        return { success: true, output: args.value };
+      },
+    },
+  ]);
+  for (const value of ['\ud800', '\udfff', 'bad\ud800end']) {
+    await assert.rejects(registry.invoke('echo', { value }, context()), /Invalid/);
+    await assert.rejects(registry.invoke('echo', { [value]: 'key' }, context()), /Invalid/);
+    assert.throws(() => checkedToolResult({ success: true, output: value }), /Invalid/);
+    assert.throws(
+      () => checkedToolResult({ success: true, output: 'ok', modifiedFiles: [value] }),
+      /Invalid/,
+    );
+  }
+  assert.equal(calls, 0);
+  assert.equal((await registry.invoke('echo', { value: '한글 😀' }, context())).output, '한글 😀');
+});
+
 function context() {
   return {
     project: 'fixture',

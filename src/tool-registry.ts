@@ -12,15 +12,26 @@ export class ToolRegistry {
       const name = boundedText(definition.name, 'tool name', 128);
       if (!/^[A-Za-z_][A-Za-z0-9_.:-]*$/.test(name) || this.tools.has(name))
         throw new Error('Invalid or duplicate tool name');
-      if (
-        !boundedText(definition.version, 'tool version', 128).trim() ||
-        typeof definition.execute !== 'function'
-      )
+      const version = boundedText(definition.version, 'tool version', 128),
+        execute = definition.execute,
+        readOnly = definition.readOnly,
+        idempotent = definition.idempotent;
+      if (!version.trim() || typeof execute !== 'function')
         throw new Error('Tool version and handler are required');
-      for (const flag of [definition.readOnly, definition.idempotent])
+      for (const flag of [readOnly, idempotent])
         if (flag !== undefined && typeof flag !== 'boolean')
           throw new Error('Tool flags must be booleans');
-      this.tools.set(name, Object.freeze({ ...definition }));
+      this.tools.set(
+        name,
+        Object.freeze({
+          ...definition,
+          name,
+          version,
+          readOnly,
+          idempotent,
+          execute: execute.bind(definition),
+        }),
+      );
     }
   }
 

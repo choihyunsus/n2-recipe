@@ -126,7 +126,7 @@ function checkedOption(option?: ExpertiseOption): ExpertiseOption | undefined {
     typeof option.select !== 'function'
   )
     throw new Error('Expertise selectors require a version and select callback');
-  return { ...option };
+  return { ...option, version: option.version, select: option.select.bind(option) };
 }
 
 function taskArgument(args: JsonValue): string {

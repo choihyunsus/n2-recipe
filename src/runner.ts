@@ -53,14 +53,14 @@ export class RecipeRunner {
 
   constructor(options: RunnerOptions) {
     this.baseline = compileBundle(options.recipes ?? bundledRecipes());
-    new ToolRegistry(options.tools);
+    const registered = new ToolRegistry(options.tools);
+    this.tools = registered.list().map((tool) => registered.get(tool.name));
     if (
-      options.tools.some((tool) =>
+      this.tools.some((tool) =>
         ['n2r_recall', 'n2r_checkpoint', 'n2r_expertise', 'n2r_work'].includes(tool.name),
       )
     )
       throw new Error('N2R builtin tool names are reserved');
-    this.tools = options.tools.map((tool) => ({ ...tool }));
     this.expertise = expertiseTool(options.expertise);
     this.deadlines = checkedDeadlines(options.deadlines);
     const filename = boundedText(options.dbPath, 'database path', 4096);
@@ -325,7 +325,12 @@ function checkedHandler(handler: WorkHandler): WorkHandler {
     throw new Error('A versioned work callback is required');
   if (handler.idempotent !== undefined && typeof handler.idempotent !== 'boolean')
     throw new Error('Work idempotency must be a boolean');
-  return { ...handler };
+  return {
+    ...handler,
+    version: handler.version,
+    idempotent: handler.idempotent,
+    execute: handler.execute.bind(handler),
+  };
 }
 
 function checkedDeadlines(input: Partial<Deadlines> = {}): Deadlines {

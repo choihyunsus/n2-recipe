@@ -3,7 +3,12 @@ import type { JsonValue } from './types';
 export const MAX_VALUE_BYTES = 65536;
 
 export function boundedText(value: unknown, name: string, maximum = MAX_VALUE_BYTES): string {
-  if (typeof value !== 'string' || value.includes('\0') || Buffer.byteLength(value) > maximum)
+  if (
+    typeof value !== 'string' ||
+    value.includes('\0') ||
+    Buffer.byteLength(value) > maximum ||
+    Buffer.from(value).toString('utf8') !== value
+  )
     throw new Error(`Invalid ${name}`);
   return value;
 }

@@ -13,7 +13,7 @@ N2R은 `.n2r` 레시피를 배포판 Clotho로 해석하고, 등록된 도구를
 Node.js 22 이상이 필요합니다. SQLite는 `better-sqlite3`를 사용하며, 호환되는 Mimir Rust 바인딩도 지원합니다. 플랫폼용 사전 빌드 바인딩을 사용할 수 없는 환경에서는 네이티브 빌드 도구가 필요할 수 있습니다.
 
 ```sh
-npm install https://github.com/choihyunsus/n2-recipe/releases/download/v1.0.0/n2-recipe-1.0.0.tgz
+npm install https://github.com/choihyunsus/n2-recipe/releases/download/v1.0.1/n2-recipe-1.0.1.tgz
 ```
 
 이 버전은 GitHub Releases로 배포합니다. Clotho, Mimir, Personas 의존성은 공개된 GitHub 배포 파일에 고정되어 있습니다.
@@ -141,6 +141,8 @@ n2-recipe run --adapter ./adapter.cjs --db ./data/soul.db --project demo --agent
 추가 테이블은 `n2r_configuration`, `n2r_runs`, `n2r_calls`, `n2r_leases`, `n2r_checkpoints`입니다. `meta.n2r_schema_version = 1`로 버전을 기록합니다. 기존의 버전 없는 N2R 테이블은 명시적 이전 절차가 필요합니다. 레시피 해시, 호출 인자, 결과와 복구 근거가 저장되므로 인증 정보는 어댑터 클로저와 환경변수에 보관하고 호출 기록에는 작업 데이터를 담습니다.
 
 ## 실행 한도
+
+텍스트는 콜백 실행과 기록 저장 전에 유효한 UTF-8인지 검사합니다. 도구 메타데이터는 등록 시점에 고정하며, 상태를 가진 도구·작업 콜백·전문가 선택기의 메서드는 원래 인스턴스에 연결해 실행합니다.
 
 | 항목 | 한도·기본값 |
 | --- | --- |

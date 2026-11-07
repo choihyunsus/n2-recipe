@@ -1,6 +1,6 @@
 {
   "name": "n2-recipe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "N2R lifecycle recipes with mandatory pre/post checks and durable scoped execution over the common Soul database.",
   "main": "dist/library.js",
   "types": "dist/library.d.ts",
