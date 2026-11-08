@@ -6,7 +6,20 @@
 
 [English](README.md)
 
+<p align="center">
+  <img src="https://github.com/choihyunsus/n2-recipe/raw/refs/heads/main/docs/images/comic.png" alt="작업 준비를 확인하고 → 사전 검사를 거쳐 → 도구를 사용해 작업하고 → 결과를 검증하고 저장합니다." width="640">
+</p>
+
+작업 준비를 확인하고 → 사전 검사를 거쳐 → 도구를 사용해 작업하고 → 결과를 검증하고 저장합니다.
+
+기능을 이야기로 표현한 만화입니다. 실제 앱 화면은 아닙니다.
+
+<details>
+<summary>동작 흐름 펼쳐 보기</summary>
+
 ![시작 전 확인 → 작업 실행 → 결과 검사와 저장](https://github.com/choihyunsus/n2-recipe/raw/refs/heads/main/docs/images/overview.ko.svg)
+
+</details>
 
 ## 이런 때 사용하세요
 

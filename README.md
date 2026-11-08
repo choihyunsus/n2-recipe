@@ -6,7 +6,20 @@
 
 [한국어](README.ko.md)
 
+<p align="center">
+  <img src="https://github.com/choihyunsus/n2-recipe/raw/refs/heads/main/docs/images/comic.png" alt="Run required checks before an AI task starts and after it finishes, in a defined order." width="640">
+</p>
+
+Run required checks before an AI task starts and after it finishes, in a defined order.
+
+A story illustrating the feature, rather than a screenshot of the app.
+
+<details>
+<summary>View the workflow</summary>
+
 ![Check readiness → Do the work → Verify and save](https://github.com/choihyunsus/n2-recipe/raw/refs/heads/main/docs/images/overview.svg)
+
+</details>
 
 ## When to use it
 
